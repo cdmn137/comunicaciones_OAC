@@ -52,6 +52,11 @@ analistas = st.sidebar.selectbox('Seleccione el analista', ['Todos',
 if (analistas != "Todos"):
     df_process = df_process.loc[(df_process["Asignado/Asignado/Nombre"] ==analistas), ]
 
+asignacion_estatus = st.sidebar.selectbox('Seleccione el estatus de asignación', ['Todos', 'assigned', 'answered', 'cancel', 'process',])
+
+if (asignacion_estatus != "Todos"):
+    df_process = df_process.loc[(df_process["Asignado/Estatus"] ==asignacion_estatus), ]
+
 # -- Grafico de categorias --
 
 st.subheader('Casos por Asunto')
