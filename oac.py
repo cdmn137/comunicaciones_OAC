@@ -42,7 +42,15 @@ responsable = st.sidebar.selectbox('Seleccione el responsable', ['Todos', 'LUIS 
 
 if (responsable != "Todos"):
     df_process = df_process.loc[(df_process["Responsable/Mostrar nombre"] ==responsable), ]
-    
+
+analistas = st.sidebar.selectbox('Seleccione el analista', ['Todos', 
+                                                                 'ROSARIO ELISA MATHEUS SULBARAN', 
+                                                                 'NORMAN JOSE SOTO BOLIVAR', 
+                                                                 'CRUZ DAVID MATA NOGUERA', 
+                                                                 'SOFIA MARGARITA FLEURY HERNANDEZ',])
+
+if (analistas != "Todos"):
+    df_process = df_process.loc[(df_process["Asignado/Asignado/Nombre"] ==analistas), ]
 
 # -- Grafico de categorias --
 
