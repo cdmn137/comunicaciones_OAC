@@ -4,7 +4,9 @@ import altair as alt
 
 
 st.write("""
-# Comunicaciones*
+# Comunicaciones SINCO
+Fondo de Compensación Interterritorial
+Consejo Federal de Gobierno
 """)
 
 df = pd.read_excel("casos.xlsx")
