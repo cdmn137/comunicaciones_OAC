@@ -5,7 +5,7 @@ import altair as alt
 
 st.write("""
 # Comunicaciones SINCO
-Fondo de Compensación Interterritorial
+Fondo de Compensación Interterritorial\n
 Consejo Federal de Gobierno
 """)
 
