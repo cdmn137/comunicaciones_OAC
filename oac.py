@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
-
+st.set_page_config(page_title="Dashboard - Comunicaciones SINCO")
 st.write("""
 # Comunicaciones SINCO
 Fondo de Compensación Interterritorial\n
