@@ -65,6 +65,29 @@ if (responsable != "Todos"):
         (cd).interactive(),
         use_container_width=True
     )
+    # -- Grafico de categorias --
+    st.subheader('Casos por Asunto')
+    categorias = df_process["Categoría/Nombre de categoría"].value_counts()
+    df_categorias = pd.DataFrame({"categoria":categorias.index, "valores":categorias})
+    bar = alt.Chart(df_categorias).mark_bar().encode(
+        x= alt.X("categoria", sort=None),
+        y="valores"
+    )
+
+    st.altair_chart(
+        (bar).interactive(),
+        use_container_width=True
+    )
+
+
+    t_min= df_process["Creado en"].min()
+
+    st.subheader('El mas urgente de atender')
+    st.dataframe(df_process.loc[(df_process["Creado en"]==t_min), ])
+
+    st.subheader('por atender rapido')
+    st.text(len(df_process))
+    st.dataframe(df_process.sort_values(by=["Creado en"]).head(10000))
 else:
     df_process = df.loc[(df["Responsable/Mostrar nombre"] ==responsable), ]
     # -- Grafico de estatus --
@@ -128,27 +151,5 @@ if (analistas != "Todos"):
 
 
 
-# -- Grafico de categorias --
-st.subheader('Casos por Asunto')
-categorias = df_process["Categoría/Nombre de categoría"].value_counts()
-df_categorias = pd.DataFrame({"categoria":categorias.index, "valores":categorias})
-bar = alt.Chart(df_categorias).mark_bar().encode(
-    x= alt.X("categoria", sort=None),
-    y="valores"
-)
 
-st.altair_chart(
-    (bar).interactive(),
-    use_container_width=True
-)
-
-
-t_min= df_process["Creado en"].min()
-
-st.subheader('El mas urgente de atender')
-st.dataframe(df_process.loc[(df_process["Creado en"]==t_min), ])
-
-st.subheader('por atender rapido')
-st.text(len(df_process))
-st.dataframe(df_process.sort_values(by=["Creado en"]).head(10000))
 
