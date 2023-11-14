@@ -82,10 +82,10 @@ if (responsable != "Todos"):
 
     t_min= df_process["Creado en"].min()
 
-    st.subheader('El mas antiguo recibido')
+    st.subheader('El mas urgente de atender')
     st.dataframe(df_process.loc[(df_process["Creado en"]==t_min), ])
 
-    st.subheader('Todas las comunicaciones')
+    st.subheader('por atender rapido')
     st.text(len(df_process))
     st.dataframe(df_process.sort_values(by=["Creado en"]).head(10000))
 else:
@@ -119,10 +119,10 @@ else:
 
     t_min= df["Creado en"].min()
 
-    st.subheader('El mas urgente de atender')
+    st.subheader('El mas antiguo recibido')
     st.dataframe(df.loc[(df["Creado en"]==t_min), ])
 
-    st.subheader('por atender rapido')
+    st.subheader('Todas las comunicaciones')
     st.text(len(df))
     st.dataframe(df.sort_values(by=["Creado en"]).head(10000))
 
