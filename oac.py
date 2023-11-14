@@ -13,6 +13,7 @@ df = pd.read_excel("casos.xlsx")
 df["Transmisor/Nombre"] = df["Transmisor/Nombre"].astype(str)
 df =  df.loc[~df["Transmisor/Nombre"].str.contains("prueba"), ]
 
+df = df.dropna(subset=["Estatus"])
 df.loc[df["Estatus"].isna(), "Estatus"] = "Ninguno"
 
 # estatus de asignacion
