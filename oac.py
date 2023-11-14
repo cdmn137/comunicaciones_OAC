@@ -13,6 +13,35 @@ df = pd.read_excel("casos.xlsx")
 df["Transmisor/Nombre"] = df["Transmisor/Nombre"].astype(str)
 df =  df.loc[~df["Transmisor/Nombre"].str.contains("prueba"), ]
 
+df = df.dropna(subset=["Estatus"])
+
+#df["Estatus"] = df["Estatus"].astype(str)
+df.loc[df["Estatus"].isna(), "Estatus"] = "Ninguno"
+
+# estatus de asignacion
+d = {
+    "assigned":"Asignado",
+    "answered":"Respondido",
+    "cancel":"Cancelado",
+    "process":"Proceso",
+    False:"False",
+
+}
+
+df["Asignado/Estatus"] = df["Asignado/Estatus"].replace(d)
+
+#Estatus
+d2 = {
+    'process':'A-En Proceso', 
+    'confirm':'B-Confirmado', 
+    'bound':'C-Vinculado', 
+    'reply':'D-Respondido', 
+    'waiting':'E-En Espera', 
+    'unanswered':'F-Sin respuesta'
+    }
+
+df["Estatus"] = df["Estatus"].replace(d2)
+
 # -- Grafico de estatus --
 valores = df["Estatus"].value_counts()
 
@@ -29,7 +58,11 @@ st.altair_chart(
 )
 
 
-estatus = st.sidebar.selectbox('Seleccione el estatus', [ 'process', 'confirm', 'bound', 'reply', 'waiting', 'unanswered'])
+list_options_estatus = []
+list_options_estatus.extend(df["Estatus"].unique().tolist())
+list_options_estatus.sort()
+
+estatus = st.sidebar.selectbox('Seleccione el estatus', list_options_estatus)
 df_process = df.loc[(df["Estatus"]==estatus), ]
 
 
@@ -42,7 +75,7 @@ responsable = st.sidebar.selectbox('Seleccione el responsable', ['Todos', 'LUIS 
 
 if (responsable != "Todos"):
     df_process = df_process.loc[(df_process["Responsable/Mostrar nombre"] ==responsable), ]
-
+    
 analistas = st.sidebar.selectbox('Seleccione el analista', ['Todos', 
                                                                  'ROSARIO ELISA MATHEUS SULBARAN', 
                                                                  'NORMAN JOSE SOTO BOLIVAR', 
@@ -52,7 +85,11 @@ analistas = st.sidebar.selectbox('Seleccione el analista', ['Todos',
 if (analistas != "Todos"):
     df_process = df_process.loc[(df_process["Asignado/Asignado/Nombre"] ==analistas), ]
 
-asignacion_estatus = st.sidebar.selectbox('Seleccione el estatus de asignación', ['Todos', 'assigned', 'answered', 'cancel', 'process',])
+
+list_options = ['Todos']
+list_options.extend(df_process["Asignado/Estatus"].unique().tolist())
+   
+asignacion_estatus = st.sidebar.selectbox('Seleccione el estatus de asignación', list_options)
 
 if (asignacion_estatus != "Todos"):
     df_process = df_process.loc[(df_process["Asignado/Estatus"] ==asignacion_estatus), ]
@@ -60,6 +97,8 @@ if (asignacion_estatus != "Todos"):
 # -- Grafico de categorias --
 
 st.subheader('Casos por Asunto')
+
+
 
 categorias = df_process["Categoría/Nombre de categoría"].value_counts()
 
@@ -84,5 +123,5 @@ st.subheader('El mas urgente de atender')
 st.dataframe(df_process.loc[(df_process["Creado en"]==t_min), ])
 
 st.subheader('por atender rapido')
+st.text(len(df_process))
 st.dataframe(df_process.sort_values(by=["Creado en"]).head(100))
-
