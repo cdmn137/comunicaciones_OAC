@@ -81,7 +81,7 @@ e = (df['Estatus'] == estatus)
 a = (df['Asignado/Asignado/Nombre'] == analista)
 ea = (df['Asignado/Estatus'] == asignacion)
 ### Fin de Opciones para matriciar <------------------------------------------------------
-
+@st.cache_data
 ### -----------------------> Definicion de funciones
 def info_sin_estatus():
     # -- Grafico de categorias --
