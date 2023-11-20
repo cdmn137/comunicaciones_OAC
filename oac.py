@@ -12,9 +12,15 @@ Consejo Federal de Gobierno
 # Fin de Cabecera del Dashboard <-------------------------------------------------------
 
 # ----------> Leer Bases de Datos
-df = pd.read_excel("casos.xlsx")
-df = df.dropna(subset=["Estatus"])
-df.loc[df["Asignado/Asignado/Nombre"].isna(), "Asignado/Asignado/Nombre"] = "Ninguno"
+@st.cache_data
+def lee_base():
+    df = pd.read_excel("casos.xlsx")
+    df = df.dropna(subset=["Estatus"])
+    df.loc[df["Asignado/Asignado/Nombre"].isna(), "Asignado/Asignado/Nombre"] = "Ninguno"
+    return df
+
+df = lee_base()
+
 #  Fin de leer Bases de Datos <--------------------------------------------------------
 
 # ----------> Traducir los estatus
@@ -81,7 +87,7 @@ e = (df['Estatus'] == estatus)
 a = (df['Asignado/Asignado/Nombre'] == analista)
 ea = (df['Asignado/Estatus'] == asignacion)
 ### Fin de Opciones para matriciar <------------------------------------------------------
-@st.cache_data
+
 ### -----------------------> Definicion de funciones
 def info_sin_estatus():
     # -- Grafico de categorias --
