@@ -15,6 +15,8 @@ Consejo Federal de Gobierno
 @st.cache_data
 def lee_base():
     df = pd.read_excel("casos.xlsx")
+    df["Transmisor/Nombre"] = df["Transmisor/Nombre"].astype(str)
+    df =  df.loc[~df["Transmisor/Nombre"].str.contains("prueba"), ]
     df = df.dropna(subset=["Estatus"])
     df.loc[df["Asignado/Asignado/Nombre"].isna(), "Asignado/Asignado/Nombre"] = "Ninguno"
     return df
