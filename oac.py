@@ -168,6 +168,7 @@ def info_general():
     )
     # -- Grafico de categorias --
     st.subheader('Casos por Asunto')
+    st.text(f"{len(df)} Casos")
     categorias = df["Categoría/Nombre de categoría"].value_counts()
     df_categorias = pd.DataFrame({"categoria":categorias.index, "valores":categorias})
     bar = alt.Chart(df_categorias).mark_bar().encode(
