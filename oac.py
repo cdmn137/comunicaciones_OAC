@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
+
 # ---------> Cabecera del Dashboard
 st.set_page_config(page_title="Dashboard - Comunicaciones SINCO", page_icon="📊")
 st.write("""
@@ -11,42 +12,47 @@ Consejo Federal de Gobierno
 """)
 # Fin de Cabecera del Dashboard <-------------------------------------------------------
 
-# ----------> Leer Bases de Datos
-@st.cache_data
-def lee_base():
+#-----------------------------------------------------------------------
+# convertir en funcion
+
+#@st.cache_data
+def load_data():
+    # ----------> Leer Bases de Datos
     df = pd.read_excel("casos.xlsx")
     df["Transmisor/Nombre"] = df["Transmisor/Nombre"].astype(str)
     df =  df.loc[~df["Transmisor/Nombre"].str.contains("prueba"), ]
     df = df.dropna(subset=["Estatus"])
     df.loc[df["Asignado/Asignado/Nombre"].isna(), "Asignado/Asignado/Nombre"] = "Ninguno"
+    #  Fin de leer Bases de Datos <--------------------------------------------------------
+
+    # ----------> Traducir los estatus
+    # estatus de asignacion
+    d = {
+        "assigned":"Asignado",
+        "answered":"Respondido",
+        "cancel":"Cancelado",
+        "process":"Proceso",
+        False:"False",
+
+    }
+    df["Asignado/Estatus"] = df["Asignado/Estatus"].replace(d)
+
+    d2 = {
+        'process':'A-En Proceso', 
+        'confirm':'B-Confirmado', 
+        'bound':'C-Vinculado', 
+        'reply':'D-Respondido', 
+        'waiting':'E-En Espera', 
+        'unanswered':'F-Sin respuesta'
+    }
+    df["Estatus"] = df["Estatus"].replace(d2)
+    # Fin de traduccion de estatus <-------------------------------------------------------
     return df
 
-df = lee_base()
+df = load_data()
 
-#  Fin de leer Bases de Datos <--------------------------------------------------------
-
-# ----------> Traducir los estatus
-# estatus de asignacion
-d = {
-    "assigned":"Asignado",
-    "answered":"Respondido",
-    "cancel":"Cancelado",
-    "process":"Proceso",
-    False:"False",
-
-}
-df["Asignado/Estatus"] = df["Asignado/Estatus"].replace(d)
-
-d2 = {
-    'process':'A-En Proceso', 
-    'confirm':'B-Confirmado', 
-    'bound':'C-Vinculado', 
-    'reply':'D-Respondido', 
-    'waiting':'E-En Espera', 
-    'unanswered':'F-Sin respuesta'
-    }
-df["Estatus"] = df["Estatus"].replace(d2)
-# Fin de traduccion de estatus <-------------------------------------------------------
+#fin convertir en funcion
+#-----------------------------------------------------------------------
 
 # --------> Crear listas de opciones 
 list_options_estatus = ['0-Todos']
@@ -172,9 +178,9 @@ def info_general():
         (bar).interactive(),
         use_container_width=True
     )
-    st.subheader('Todas las comunicaciones')
-    st.text(len(df))
-    st.dataframe(df)
+    #st.subheader('Todas las comunicaciones')
+    #st.text(len(df))
+    #st.dataframe(df)
 ### Fin de Definicion de funciones <------------------------------------------------------
 
 ### -----------------------> Matriz de funcionalidad
