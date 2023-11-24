@@ -158,34 +158,39 @@ def info_full():
     st.dataframe(df_full)
 
 def info_general():
-    # -- Grafico de estatus --
-    st.subheader('Balance General')
-    valores = df["Estatus"].value_counts()
-    source = pd.DataFrame({"category": valores.index, "value": valores})
-    ch = alt.Chart(source).mark_arc().encode(
-        theta="value",
-        color="category"
-    )
-    st.altair_chart(
-        (ch).interactive(),
-        use_container_width=True
-    )
-    # -- Grafico de categorias --
-    st.subheader('Casos por Asunto')
+    col1, col2 = st.columns([0.3, 0.7])
+    with col2:
+        # -- Grafico de categorias --
+        st.subheader('Casos por Asunto')
+        st.text(f"{len(df)} Casos")
+        categorias = df["Categoría/Nombre de categoría"].value_counts()
+        df_categorias = pd.DataFrame({"categoria":categorias.index, "valores":categorias})
+        bar = alt.Chart(df_categorias).mark_bar().encode(
+            x= alt.X("categoria", sort=None),
+            y="valores"
+        )
+        st.altair_chart(
+            (bar).interactive(),
+            use_container_width=True
+        )
+
+    with col1:
+        # -- Grafico de estatus --
+        st.subheader('Balance General')
+        valores = df["Estatus"].value_counts()
+        source = pd.DataFrame({"category": valores.index, "value": valores})
+        ch = alt.Chart(source).mark_arc().encode(
+            theta="value",
+            color="category"
+        )
+        st.altair_chart(
+            (ch).interactive(),
+            use_container_width=True
+        )
+        
+    st.subheader('Todas las comunicaciones')
     st.text(f"{len(df)} Casos")
-    categorias = df["Categoría/Nombre de categoría"].value_counts()
-    df_categorias = pd.DataFrame({"categoria":categorias.index, "valores":categorias})
-    bar = alt.Chart(df_categorias).mark_bar().encode(
-        x= alt.X("categoria", sort=None),
-        y="valores"
-    )
-    st.altair_chart(
-        (bar).interactive(),
-        use_container_width=True
-    )
-    #st.subheader('Todas las comunicaciones')
-    #st.text(len(df))
-    #st.dataframe(df)
+    st.dataframe(df)
 ### Fin de Definicion de funciones <------------------------------------------------------
 
 ### -----------------------> Matriz de funcionalidad
