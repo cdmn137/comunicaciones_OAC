@@ -188,9 +188,9 @@ def info_general():
             use_container_width=True
         )
         
-    st.subheader('Todas las comunicaciones')
-    st.text(f"{len(df)} Casos")
-    st.dataframe(df)
+    #st.subheader('Todas las comunicaciones')
+    #st.text(f"{len(df)} Casos")
+    #st.dataframe(df)
 ### Fin de Definicion de funciones <------------------------------------------------------
 
 ### -----------------------> Matriz de funcionalidad
