@@ -4,7 +4,11 @@ import altair as alt
 
 
 # ---------> Cabecera del Dashboard
-st.set_page_config(page_title="Dashboard - Comunicaciones SINCO", page_icon="📊")
+st.set_page_config(
+    page_title="Dashboard - Comunicaciones SINCO",
+    page_icon="📊",
+    layout="wide",
+    )
 st.write("""
 # Comunicaciones SINCO
 Fondo de Compensación Interterritorial\n
