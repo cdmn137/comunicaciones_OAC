@@ -25,6 +25,6 @@ st.link_button(
 
 st.write(
     """
-Nota: Si es empleado de la OAC, para poder ingresar al Dashboard debe ingresar su usuario que consta de la inicial de su nombre y su apellido, (ejemplo: Carlos perez usuario: cperez) y su contraseña es su numero de cedula (solo numeros)
+Nota: Si usted trabaja en la OAC, para poder ingresar al Dashboard debe ingresar su usuario, que consta de la inicial de su nombre y su apellido, (ejemplo: Carlos perez usuario: cperez) y su contraseña que es su numero de cedula (solo numeros)
 
 """)
